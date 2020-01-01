@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-require_once __DIR__.'/../vendor/autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
 (new Laravel\Lumen\Bootstrap\LoadEnvironmentVariables(
     dirname(__DIR__)
@@ -58,6 +58,10 @@ $app->singleton(
 |
 */
 
+$app->middleware([
+    \Fruitcake\Cors\HandleCors::class,
+]);
+
 $app->routeMiddleware([
     'auth' => App\Http\Middleware\Authenticate::class,
 ]);
@@ -73,6 +77,7 @@ $app->routeMiddleware([
 |
 */
 
+$app->register(\Fruitcake\Cors\CorsServiceProvider::class);
 $app->register(\NunoMaduro\PhpInsights\Application\Adapters\Laravel\InsightsServiceProvider::class);
 $app->register(\Tymon\JWTAuth\Providers\LumenServiceProvider::class);
 
@@ -103,6 +108,7 @@ $app->alias('mailer', \Illuminate\Contracts\Mail\Mailer::class);
 */
 
 $app->configure('auth');
+$app->configure('cors');
 $app->configure('hashing');
 $app->configure('insights');
 
@@ -120,7 +126,7 @@ $app->configure('insights');
 $app->router->group([
     'namespace' => 'App\Http\Controllers',
 ], function ($router) {
-    require __DIR__.'/../routes/web.php';
+    require __DIR__ . '/../routes/web.php';
 });
 
 return $app;
