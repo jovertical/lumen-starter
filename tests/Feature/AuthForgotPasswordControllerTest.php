@@ -32,7 +32,7 @@ class AuthForgotPasswordControllerTest extends TestCase
         Queue::assertPushed(ProcessPasswordRequest::class);
 
         $this->seeInDatabase('password_resets', [
-            'email' => $user->email,
+            'email' => $data['email'],
         ]);
     }
 }

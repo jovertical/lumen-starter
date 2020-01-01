@@ -25,7 +25,7 @@ class SignInController extends Controller
 
         $token = Auth::attempt($request->only(['email', 'password']));
 
-        if (! $token) {
+        if (!$token) {
             return response()->json([
                 'error' => Lang::get('auth.failed'),
             ], 401);

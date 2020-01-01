@@ -15,15 +15,14 @@ class AuthRefreshTokenControllerTest extends TestCase
     {
         $user = $this->signIn();
 
-        $token = Auth::tokenById($user->id);
+        $data = Auth::tokenById($user->id);
 
-        $test = $this->post(route('auth.refresh'))
+        $this->post(route('auth.refresh'))
             ->seeStatusCode(200)
             ->seeJsonStructure(['message', 'data'])
+            ->seeJsonDoesntContains(compact('data'))
             ->seeJsonContains([
                 'message' => Lang::get('auth.session_renewed'),
             ]);
-
-        $this->assertNotEquals($token, $test->response->getContent());
     }
 }
